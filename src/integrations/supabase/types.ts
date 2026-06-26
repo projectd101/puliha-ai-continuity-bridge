@@ -14,7 +14,96 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      account_slots: {
+        Row: {
+          active: boolean
+          ai_system: string
+          id: string
+          label: string
+          slot_number: number
+        }
+        Insert: {
+          active?: boolean
+          ai_system?: string
+          id?: string
+          label?: string
+          slot_number: number
+        }
+        Update: {
+          active?: boolean
+          ai_system?: string
+          id?: string
+          label?: string
+          slot_number?: number
+        }
+        Relationships: []
+      }
+      chat_logs: {
+        Row: {
+          created_at: string
+          id: string
+          order_index: number
+          project_id: string
+          slot_id: string | null
+          title: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          order_index?: number
+          project_id: string
+          slot_id?: string | null
+          title: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          order_index?: number
+          project_id?: string
+          slot_id?: string | null
+          title?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_logs_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_logs_slot_id_fkey"
+            columns: ["slot_id"]
+            isOneToOne: false
+            referencedRelation: "account_slots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      projects: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          target_ai: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          target_ai?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          target_ai?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
